@@ -115,7 +115,10 @@ class BillBloc extends Bloc<BillEvent, BillState> {
     final result = await _repository.createBill(billToCreate);
     result.fold(
       (failure) => emit(BillErrorState(failure.message)),
-      (bill) => emit(BillCreatedState(bill)),
+      (bill) {
+        emit(BillCreatedState(bill));
+        add(const BillLoadEvent());
+      },
     );
   }
 
@@ -173,7 +176,10 @@ class BillBloc extends Bloc<BillEvent, BillState> {
     final result = await _repository.deleteBill(event.id);
     result.fold(
       (failure) => emit(BillErrorState(failure.message)),
-      (_) => emit(BillDeletedState(event.id)),
+      (_) {
+        emit(BillDeletedState(event.id));
+        add(const BillLoadEvent());
+      },
     );
   }
 

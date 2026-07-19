@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../blocs/bill/bill_bloc.dart';
+import '../blocs/bill/bill_event.dart';
 
 class MainShell extends StatefulWidget {
   final Widget child;
@@ -37,35 +40,39 @@ class _MainShellState extends State<MainShell> {
           onDestinationSelected: (index) {
             setState(() => _selectedIndex = index);
             context.go(_routes[index]);
+            if (index == 0) {
+              // Reload bills when returning to home
+              context.read<BillBloc>().add(const BillLoadEvent());
+            }
           },
           backgroundColor: Theme.of(context).brightness == Brightness.light
               ? AppColors.surfaceLight
               : AppColors.surfaceDark,
           indicatorColor: AppColors.primary.withOpacity(0.15),
-          destinations: const [
+          destinations: [
             NavigationDestination(
-              icon: Icon(Icons.dashboard_outlined),
-              selectedIcon: Icon(Icons.dashboard_rounded),
+              icon: const Icon(Icons.dashboard_outlined),
+              selectedIcon: const Icon(Icons.dashboard_rounded, color: AppColors.primary),
               label: 'Home',
             ),
             NavigationDestination(
-              icon: Icon(Icons.bar_chart_outlined),
-              selectedIcon: Icon(Icons.bar_chart_rounded),
+              icon: const Icon(Icons.bar_chart_outlined),
+              selectedIcon: const Icon(Icons.bar_chart_rounded, color: AppColors.primary),
               label: 'Analytics',
             ),
             NavigationDestination(
-              icon: Icon(Icons.shield_outlined),
-              selectedIcon: Icon(Icons.shield_rounded),
+              icon: const Icon(Icons.shield_outlined),
+              selectedIcon: const Icon(Icons.shield_rounded, color: AppColors.primary),
               label: 'Warranty',
             ),
             NavigationDestination(
-              icon: Icon(Icons.search_outlined),
-              selectedIcon: Icon(Icons.search_rounded),
+              icon: const Icon(Icons.search_outlined),
+              selectedIcon: const Icon(Icons.search_rounded, color: AppColors.primary),
               label: 'Search',
             ),
             NavigationDestination(
-              icon: Icon(Icons.settings_outlined),
-              selectedIcon: Icon(Icons.settings_rounded),
+              icon: const Icon(Icons.settings_outlined),
+              selectedIcon: const Icon(Icons.settings_rounded, color: AppColors.primary),
               label: 'Settings',
             ),
           ],
