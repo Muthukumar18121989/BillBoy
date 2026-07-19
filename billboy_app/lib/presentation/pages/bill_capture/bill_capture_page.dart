@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -56,15 +55,11 @@ class _BillCapturePageState extends State<BillCapturePage> {
   }
 
   Future<void> _pickPdf() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
-    if (result != null && result.files.isNotEmpty && mounted) {
-      final path = result.files.first.path;
-      if (path != null) {
-        context.read<BillBloc>().add(BillExtractOcrEvent(path, isPdf: true));
-      }
+    // PDF picking via file_picker removed due to plugin compatibility issue.
+    // Use image_picker gallery as fallback for now.
+    final image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null && mounted) {
+      _processImage(image.path);
     }
   }
 

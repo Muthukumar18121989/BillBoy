@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "851190240105",
+    "project_id": "billboy-1ff2c",
+    "storage_bucket": "billboy-1ff2c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851190240105:android:356b90bd8122e89e5da3f8",
+        "android_client_info": {
+          "package_name": "com.billboy.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEYSYdQKfD_Mhg_N-R3p8gcUnWfCO4M4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851190240105:android:64c303ed32782bb15da3f8",
+        "android_client_info": {
+          "package_name": "com.billboy.billboy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEYSYdQKfD_Mhg_N-R3p8gcUnWfCO4M4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

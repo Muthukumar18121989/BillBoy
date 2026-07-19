@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/theme/app_theme.dart';
@@ -106,7 +105,7 @@ class BillDetailPage extends StatelessWidget {
           const SizedBox(height: 8),
           if (bill.brandName != null || bill.modelNumber != null)
             Text(
-              [bill.brandName, bill.modelNumber].where((e) => e != null).join(' • '),
+              [bill.brandName, bill.modelNumber].where((e) => e != null).join(' â€¢ '),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.textSecondaryLight),
             ),
           const SizedBox(height: 16),
@@ -242,7 +241,9 @@ class BillDetailPage extends StatelessWidget {
       MaterialPageRoute(
         builder: (_) => Scaffold(
           appBar: AppBar(title: const Text('Receipt')),
-          body: PhotoView(imageProvider: NetworkImage(url)),
+          body: InteractiveViewer(
+            child: Center(child: Image.network(url, fit: BoxFit.contain)),
+          ),
         ),
       ),
     );
@@ -386,8 +387,7 @@ class _WarrantyBadge extends StatelessWidget {
       child: Text(
         _label,
         style: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 12,
+                    fontSize: 12,
           fontWeight: FontWeight.w600,
           color: _color,
         ),
@@ -413,8 +413,7 @@ class _ValueChip extends StatelessWidget {
         Text(
           value,
           style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 18,
+                        fontSize: 18,
             fontWeight: FontWeight.w700,
             color: color,
           ),
@@ -423,3 +422,4 @@ class _ValueChip extends StatelessWidget {
     );
   }
 }
+

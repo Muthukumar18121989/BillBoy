@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
 
 class BBSnackbar {
@@ -30,8 +30,7 @@ class BBSnackbar {
               child: Text(
                 message,
                 style: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w500,
                   color: Colors.white,
                 ),
               ),
@@ -47,3 +46,4 @@ class BBSnackbar {
     );
   }
 }
+

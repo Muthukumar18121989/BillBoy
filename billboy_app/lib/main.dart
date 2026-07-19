@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -8,13 +9,23 @@ import 'core/di/injection_container.dart' as di;
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/blocs/auth/auth_bloc.dart';
+import 'presentation/blocs/auth/auth_event.dart';
+import 'presentation/blocs/auth/auth_state.dart';
 import 'presentation/blocs/bill/bill_bloc.dart';
 import 'presentation/blocs/dashboard/dashboard_bloc.dart';
 import 'presentation/blocs/warranty/warranty_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyAEYSYdQKfD_Mhg_N-R3p8gcUnWfCO4M4A',
+      appId: '1:851190240105:android:64c303ed32782bb15da3f8',
+      messagingSenderId: '851190240105',
+      projectId: 'billboy-1ff2c',
+      storageBucket: 'billboy-1ff2c.firebasestorage.app',
+    ),
+  );
   await Hive.initFlutter();
   await di.init();
 

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_theme.dart';
@@ -113,8 +113,7 @@ class BillCard extends StatelessWidget {
                             child: Text(
                               bill.category,
                               style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 10,
+                                                                fontSize: 10,
                                 fontWeight: FontWeight.w500,
                                 color: _categoryColor,
                               ),
@@ -122,7 +121,7 @@ class BillCard extends StatelessWidget {
                           ),
                           if (bill.storeName != null) ...[
                             const SizedBox(width: 6),
-                            const Text('•', style: TextStyle(color: AppColors.textSecondaryLight)),
+                            const Text('â€¢', style: TextStyle(color: AppColors.textSecondaryLight)),
                             const SizedBox(width: 6),
                             Expanded(
                               child: Text(
@@ -149,8 +148,7 @@ class BillCard extends StatelessWidget {
                   child: Text(
                     _statusLabel,
                     style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 11,
+                                            fontSize: 11,
                       fontWeight: FontWeight.w600,
                       color: _statusColor,
                     ),
@@ -298,3 +296,4 @@ class _InfoItem extends StatelessWidget {
     );
   }
 }
+

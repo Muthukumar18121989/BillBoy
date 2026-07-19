@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -56,8 +56,7 @@ class SettingsPage extends StatelessWidget {
                             Text(
                               user.fullName,
                               style: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
+                                                                fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
@@ -65,8 +64,7 @@ class SettingsPage extends StatelessWidget {
                             Text(
                               user.email,
                               style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 13,
+                                                                fontSize: 13,
                                 color: Colors.white.withOpacity(0.8),
                               ),
                             ),
@@ -423,3 +421,4 @@ class _SettingsSwitchItem extends StatelessWidget {
     );
   }
 }
+

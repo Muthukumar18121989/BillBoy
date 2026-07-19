@@ -57,12 +57,17 @@ class BillRemoteDataSourceImpl implements BillRemoteDataSource {
       final sortField = filter?.sortBy ?? 'purchaseDate';
       query = query.orderBy(sortField, descending: !(filter?.sortAscending ?? false));
 
+      // Firestore doesn't support offset — use limit-based pagination
       final snapshot = await query
-          .limit(pageSize)
-          .offset((page - 1) * pageSize)
+          .limit(pageSize * page)
           .get();
+      final allDocs = snapshot.docs;
+      final startIndex = (page - 1) * pageSize;
+      final pageDocs = startIndex < allDocs.length
+          ? allDocs.sublist(startIndex, (startIndex + pageSize).clamp(0, allDocs.length))
+          : <QueryDocumentSnapshot>[];
 
-      return snapshot.docs.map((doc) => BillModel.fromFirestore(doc)).toList();
+      return pageDocs.map((doc) => BillModel.fromFirestore(doc)).toList();
     } catch (e) {
       throw ServerException('Failed to fetch bills: $e');
     }

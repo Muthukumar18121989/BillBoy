@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
 
 class WarrantyAlertCard extends StatelessWidget {
@@ -75,8 +75,7 @@ class WarrantyAlertCard extends StatelessWidget {
               child: Text(
                 _urgency,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 11,
+                                    fontSize: 11,
                   fontWeight: FontWeight.w600,
                   color: _color,
                 ),
@@ -88,3 +87,4 @@ class WarrantyAlertCard extends StatelessWidget {
     );
   }
 }
+

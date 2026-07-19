@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
@@ -61,8 +61,7 @@ class _SplashPageState extends State<SplashPage> {
                 const Text(
                   'BillBoy',
                   style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 42,
+                                        fontSize: 42,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                     letterSpacing: -1,
@@ -75,8 +74,7 @@ class _SplashPageState extends State<SplashPage> {
                 Text(
                   'Never lose a bill. Never miss a warranty.',
                   style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
+                                        fontSize: 14,
                     fontWeight: FontWeight.w400,
                     color: Colors.white.withOpacity(0.8),
                     letterSpacing: 0.3,
@@ -104,8 +102,7 @@ class _SplashPageState extends State<SplashPage> {
                 Text(
                   'v1.0.0',
                   style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
+                                        fontSize: 12,
                     color: Colors.white.withOpacity(0.5),
                   ),
                 ).animate().fadeIn(delay: 1000.ms),
@@ -119,3 +116,4 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 }
+

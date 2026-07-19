@@ -1,4 +1,4 @@
-import 'package:fl_chart/fl_chart.dart';
+﻿import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -107,15 +107,14 @@ class _SpendingTab extends StatelessWidget {
               children: [
                 const Text(
                   'Total Spending',
-                  style: TextStyle(color: Colors.white70, fontFamily: 'Poppins', fontSize: 14),
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   CurrencyUtils.format(totalSpend),
                   style: const TextStyle(
                     color: Colors.white,
-                    fontFamily: 'Poppins',
-                    fontSize: 32,
+                                        fontSize: 32,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -368,3 +367,4 @@ class _LegendRow extends StatelessWidget {
     );
   }
 }
+

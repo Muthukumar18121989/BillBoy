@@ -1,13 +1,9 @@
 import 'dart:io';
 import 'package:csv/csv.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 
 import '../../core/errors/exceptions.dart';
 import '../../core/errors/failures.dart';
 import '../../core/services/ocr_service.dart';
-import '../../core/utils/currency_utils.dart';
 import '../../core/utils/date_utils.dart';
 import '../../core/utils/either.dart';
 import '../../domain/entities/bill_entity.dart';
@@ -196,34 +192,6 @@ class BillRepositoryImpl implements BillRepository {
 
   @override
   Future<Either<Failure, void>> exportToPdf(List<BillEntity> bills, String filePath) async {
-    try {
-      final pdf = pw.Document();
-
-      pdf.addPage(
-        pw.MultiPage(
-          pageFormat: PdfPageFormat.a4,
-          build: (context) => [
-            pw.Header(level: 0, child: pw.Text('BillBoy - Purchase Summary')),
-            pw.SizedBox(height: 20),
-            pw.Table.fromTextArray(
-              headers: ['Product', 'Category', 'Date', 'Amount', 'Warranty'],
-              data: bills.map((b) => [
-                b.productName,
-                b.category,
-                AppDateUtils.format(b.purchaseDate),
-                CurrencyUtils.format(b.purchaseAmount),
-                b.warrantyStatus.name,
-              ]).toList(),
-            ),
-          ],
-        ),
-      );
-
-      final bytes = await pdf.save();
-      await File(filePath).writeAsBytes(bytes);
-      return const Right(null);
-    } catch (e) {
-      return Left(StorageFailure('PDF export failed: $e'));
-    }
+    return Left(StorageFailure('PDF export not available'));
   }
 }

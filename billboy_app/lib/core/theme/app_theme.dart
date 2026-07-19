@@ -60,7 +60,6 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      fontFamily: 'Poppins',
       colorScheme: const ColorScheme.light(
         primary: AppColors.primary,
         secondary: AppColors.accent,
@@ -78,13 +77,12 @@ class AppTheme {
         elevation: 0,
         centerTitle: false,
         titleTextStyle: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 20,
+              fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimaryLight,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.cardLight,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -102,8 +100,7 @@ class AppTheme {
             borderRadius: BorderRadius.circular(12),
           ),
           textStyle: const TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 15,
+                  fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -117,8 +114,7 @@ class AppTheme {
             borderRadius: BorderRadius.circular(12),
           ),
           textStyle: const TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 15,
+                  fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -144,8 +140,7 @@ class AppTheme {
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         labelStyle: const TextStyle(
-          fontFamily: 'Poppins',
-          color: AppColors.textSecondaryLight,
+              color: AppColors.textSecondaryLight,
         ),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -158,8 +153,7 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.primary.withOpacity(0.1),
         labelStyle: const TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 12,
+              fontSize: 12,
           color: AppColors.primary,
         ),
         shape: RoundedRectangleBorder(
@@ -178,7 +172,6 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      fontFamily: 'Poppins',
       colorScheme: const ColorScheme.dark(
         primary: AppColors.primary,
         secondary: AppColors.accent,
@@ -196,13 +189,12 @@ class AppTheme {
         elevation: 0,
         centerTitle: false,
         titleTextStyle: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 20,
+              fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimaryDark,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.cardDark,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -220,8 +212,7 @@ class AppTheme {
             borderRadius: BorderRadius.circular(12),
           ),
           textStyle: const TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 15,
+                  fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -243,8 +234,7 @@ class AppTheme {
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         labelStyle: const TextStyle(
-          fontFamily: 'Poppins',
-          color: AppColors.textSecondaryDark,
+              color: AppColors.textSecondaryDark,
         ),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
