@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -13,6 +16,7 @@ import 'presentation/blocs/auth/auth_event.dart';
 import 'presentation/blocs/auth/auth_state.dart';
 import 'presentation/blocs/bill/bill_bloc.dart';
 import 'presentation/blocs/dashboard/dashboard_bloc.dart';
+import 'presentation/blocs/subscription/subscription_bloc.dart';
 import 'presentation/blocs/warranty/warranty_bloc.dart';
 
 void main() async {
@@ -26,6 +30,19 @@ void main() async {
       storageBucket: 'billboy-1ff2c.firebasestorage.app',
     ),
   );
+  // Crashlytics — catch Flutter framework errors
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  // Catch async errors outside Flutter framework
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+  // Disable Crashlytics in debug mode so errors surface in console
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(!kDebugMode);
+
+  // Analytics
+  await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(!kDebugMode);
+
   await Hive.initFlutter();
   await di.init();
 
@@ -55,6 +72,7 @@ class BillBoyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.sl<BillBloc>()),
         BlocProvider(create: (_) => di.sl<DashboardBloc>()),
         BlocProvider(create: (_) => di.sl<WarrantyBloc>()),
+        BlocProvider(create: (_) => di.sl<SubscriptionBloc>()),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, authState) {

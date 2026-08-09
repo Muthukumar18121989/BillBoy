@@ -17,8 +17,14 @@ import '../../presentation/blocs/bill/bill_bloc.dart';
 import '../../presentation/blocs/dashboard/dashboard_bloc.dart';
 import '../../presentation/blocs/warranty/warranty_bloc.dart';
 import '../network/dio_client.dart';
+import '../services/analytics_service.dart';
+import '../services/entitlement_service.dart';
 import '../services/notification_service.dart';
 import '../services/ocr_service.dart';
+import '../../data/datasources/remote/subscription_remote_datasource.dart';
+import '../../data/repositories/subscription_repository_impl.dart';
+import '../../domain/repositories/subscription_repository.dart';
+import '../../presentation/blocs/subscription/subscription_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -35,6 +41,7 @@ Future<void> init() async {
   sl.registerSingleton<Dio>(DioClient.createDio(prefs));
 
   // Services
+  sl.registerSingleton<AnalyticsService>(AnalyticsService());
   sl.registerSingleton<NotificationService>(NotificationService());
   sl.registerSingleton<OcrService>(OcrService());
 
@@ -66,9 +73,25 @@ Future<void> init() async {
     ),
   );
 
+  // Subscription data layer
+  sl.registerLazySingleton<SubscriptionRemoteDataSource>(
+    () => SubscriptionRemoteDataSourceImpl(sl<FirebaseFirestore>()),
+  );
+
+  sl.registerLazySingleton<SubscriptionRepository>(
+    () => SubscriptionRepositoryImpl(sl<SubscriptionRemoteDataSource>()),
+  );
+
+  sl.registerSingleton<EntitlementService>(
+    EntitlementService(sl<SubscriptionRepository>()),
+  );
+
   // BLoCs
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl<AuthRepository>()));
-  sl.registerFactory<BillBloc>(() => BillBloc(sl<BillRepository>()));
+  sl.registerFactory<BillBloc>(() => BillBloc(sl<BillRepository>(), sl<EntitlementService>()));
   sl.registerFactory<DashboardBloc>(() => DashboardBloc(sl<BillRepository>()));
   sl.registerFactory<WarrantyBloc>(() => WarrantyBloc(sl<BillRepository>()));
+  sl.registerFactory<SubscriptionBloc>(
+    () => SubscriptionBloc(sl<SubscriptionRepository>(), sl<EntitlementService>()),
+  );
 }

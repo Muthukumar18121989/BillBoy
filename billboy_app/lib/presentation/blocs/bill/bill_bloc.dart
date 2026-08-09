@@ -5,15 +5,17 @@ import 'package:uuid/uuid.dart';
 import '../../../domain/entities/bill_entity.dart';
 import '../../../domain/repositories/bill_repository.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../core/services/entitlement_service.dart';
 import '../../../core/utils/depreciation_calculator.dart';
 import 'bill_event.dart';
 import 'bill_state.dart';
 
 class BillBloc extends Bloc<BillEvent, BillState> {
   final BillRepository _repository;
+  final EntitlementService _entitlementService;
   static const _uuid = Uuid();
 
-  BillBloc(this._repository) : super(BillInitialState()) {
+  BillBloc(this._repository, this._entitlementService) : super(BillInitialState()) {
     on<BillLoadEvent>(_onLoad);
     on<BillLoadMoreEvent>(_onLoadMore);
     on<BillCreateEvent>(_onCreate);
@@ -67,6 +69,13 @@ class BillBloc extends Bloc<BillEvent, BillState> {
   }
 
   Future<void> _onCreate(BillCreateEvent event, Emitter<BillState> emit) async {
+    // Enforce free-tier bill limit before creating
+    final canAdd = await _entitlementService.canAddBill(event.bill.userId);
+    if (!canAdd) {
+      emit(const BillLimitReachedState());
+      return;
+    }
+
     final now = DateTime.now();
     final currentValue = DepreciationCalculator.calculateCurrentValue(
       purchaseAmount: event.bill.purchaseAmount,

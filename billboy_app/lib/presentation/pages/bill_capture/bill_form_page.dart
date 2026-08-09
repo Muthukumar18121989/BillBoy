@@ -143,6 +143,8 @@ class _BillFormPageState extends State<BillFormPage> {
         if (state is BillCreatedState || state is BillUpdatedState) {
           BBSnackbar.showSuccess(context, _isEditing ? 'Bill updated!' : 'Bill saved successfully!');
           context.go('/home');
+        } else if (state is BillLimitReachedState) {
+          context.go('/subscription', extra: true);
         } else if (state is BillErrorState) {
           BBSnackbar.showError(context, state.message);
         }

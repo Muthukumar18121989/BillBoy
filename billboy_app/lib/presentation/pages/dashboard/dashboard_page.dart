@@ -5,13 +5,18 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/currency_utils.dart';
+import '../../blocs/auth/auth_bloc.dart';
+import '../../blocs/auth/auth_state.dart';
 import '../../blocs/bill/bill_bloc.dart';
 import '../../blocs/bill/bill_event.dart';
 import '../../blocs/bill/bill_state.dart';
 import '../../blocs/dashboard/dashboard_bloc.dart';
+import '../../blocs/subscription/subscription_bloc.dart';
+import '../../blocs/subscription/subscription_event.dart';
 import '../../widgets/bill/bill_table.dart';
 import '../../widgets/common/bb_search_bar.dart';
 import '../../widgets/common/stat_card.dart';
+import '../../widgets/common/upgrade_banner.dart';
 import '../../widgets/common/warranty_alert_card.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -29,6 +34,15 @@ class _DashboardPageState extends State<DashboardPage> {
     super.initState();
     context.read<BillBloc>().add(const BillLoadEvent());
     context.read<DashboardBloc>().add(DashboardLoadEvent());
+
+    // Load subscription and watch for live updates
+    final authState = context.read<AuthBloc>().state;
+    if (authState is AuthAuthenticatedState) {
+      final userId = authState.user.id;
+      context.read<SubscriptionBloc>()
+        ..add(SubscriptionLoadEvent(userId))
+        ..add(SubscriptionWatchEvent(userId));
+    }
   }
 
   @override
@@ -52,6 +66,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 },
                 child: CustomScrollView(
                   slivers: [
+                    const SliverToBoxAdapter(child: UpgradeBanner()),
                     SliverToBoxAdapter(child: _buildStats()),
                     SliverToBoxAdapter(child: _buildWarrantyAlerts()),
                     SliverToBoxAdapter(child: _buildTableSection()),

@@ -106,3 +106,8 @@ class BillErrorState extends BillState {
   @override
   List<Object?> get props => [message];
 }
+
+/// Emitted when a free-tier user hits the 50-bill limit.
+class BillLimitReachedState extends BillState {
+  const BillLimitReachedState();
+}

@@ -14,6 +14,7 @@ import '../../presentation/pages/main_shell.dart';
 import '../../presentation/pages/search/search_page.dart';
 import '../../presentation/pages/settings/settings_page.dart';
 import '../../presentation/pages/splash/splash_page.dart';
+import '../../presentation/pages/subscription/subscription_page.dart';
 import '../../presentation/pages/warranty/warranty_page.dart';
 
 class AppRouter {
@@ -108,6 +109,13 @@ class AppRouter {
         GoRoute(
           path: '/notifications',
           builder: (_, __) => const _NotificationsPage(),
+        ),
+        GoRoute(
+          path: '/subscription',
+          builder: (context, state) {
+            final isLimitReached = state.extra as bool? ?? false;
+            return SubscriptionPage(isLimitReached: isLimitReached);
+          },
         ),
       ],
     );
