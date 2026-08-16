@@ -7,6 +7,9 @@ import '../../../core/theme/app_theme.dart';
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_event.dart';
 import '../../blocs/auth/auth_state.dart';
+import '../../blocs/bill/bill_bloc.dart';
+import '../../blocs/bill/bill_event.dart';
+import '../../blocs/bill/bill_state.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -183,20 +186,34 @@ class SettingsPage extends StatelessWidget {
               const SizedBox(height: 16),
 
               _SettingsSection(
-                title: 'Data',
+                title: 'Subscription',
+                items: [
+                  _SettingsItem(
+                    icon: Icons.workspace_premium_outlined,
+                    label: 'Manage Subscription',
+                    subtitle: 'Upgrade, downgrade or cancel',
+                    onTap: () => context.push('/subscription'),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+
+              _SettingsSection(
+                title: 'Data & Privacy',
                 items: [
                   _SettingsItem(
                     icon: Icons.download_outlined,
-                    label: 'Export All Data',
-                    subtitle: 'Download as CSV or PDF',
-                    onTap: () {},
+                    label: 'Export My Data',
+                    subtitle: 'Download all your bills as CSV',
+                    onTap: () => _exportData(context),
                   ),
                   _SettingsItem(
-                    icon: Icons.delete_outline_rounded,
-                    label: 'Delete All Data',
-                    subtitle: 'Permanently delete all bills',
+                    icon: Icons.person_remove_outlined,
+                    label: 'Delete Account',
+                    subtitle: 'Permanently delete your account and all data',
                     labelColor: AppColors.error,
-                    onTap: () {},
+                    onTap: () => _confirmDeleteAccount(context),
                   ),
                 ],
               ),
@@ -244,6 +261,45 @@ class SettingsPage extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+  }
+
+  void _exportData(BuildContext context) {
+    // Trigger CSV export via BillBloc — existing implementation
+    context.read<BillBloc>().add(BillExportCsvEvent());
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Exporting your bills as CSV…'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _confirmDeleteAccount(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Account'),
+        content: const Text(
+          'This will permanently delete your account and ALL your bills. '
+          'This action cannot be undone.\n\n'
+          'You will be signed out and your data will be scheduled for deletion.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
+            onPressed: () {
+              Navigator.pop(ctx);
+              context.read<AuthBloc>().add(AuthDeleteAccountEvent());
+            },
+            child: const Text('Delete My Account'),
+          ),
+        ],
       ),
     );
   }

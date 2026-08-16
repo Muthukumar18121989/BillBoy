@@ -79,6 +79,16 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, void>> deleteAccount() async {
+    try {
+      await _remote.deleteAccount();
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure('Account deletion failed: $e'));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> sendEmailVerification() async {
     try {
       await _remote.sendEmailVerification();

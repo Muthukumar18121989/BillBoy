@@ -11,6 +11,7 @@ abstract class AuthRemoteDataSource {
   Future<UserEntity> signInWithGoogle();
   Future<UserEntity> signInWithApple();
   Future<void> signOut();
+  Future<void> deleteAccount();
   Future<void> sendEmailVerification();
   Future<void> sendPasswordResetEmail(String email);
   Future<void> verifyOtp(String phone, String otp);
@@ -118,6 +119,28 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> signOut() async {
     await _auth.signOut();
     await _googleSignIn.signOut();
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    final user = _auth.currentUser;
+    if (user == null) throw AuthException('No authenticated user');
+
+    // Delete all bills belonging to this user
+    final billsQuery = await _firestore
+        .collection('bills')
+        .where('userId', isEqualTo: user.uid)
+        .get();
+    final batch = _firestore.batch();
+    for (final doc in billsQuery.docs) {
+      batch.delete(doc.reference);
+    }
+    // Delete user profile document
+    batch.delete(_firestore.collection('users').doc(user.uid));
+    await batch.commit();
+
+    // Delete Firebase Auth account last
+    await user.delete();
   }
 
   @override

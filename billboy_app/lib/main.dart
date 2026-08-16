@@ -21,13 +21,17 @@ import 'presentation/blocs/warranty/warranty_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Firebase credentials injected at build time via --dart-define.
+  // Never hardcode API keys in source. For local dev, use:
+  //   flutter run --dart-define=FIREBASE_API_KEY=... --dart-define=FIREBASE_APP_ID=...
+  // CI/CD injects these via GitHub Actions secrets.
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: 'AIzaSyAEYSYdQKfD_Mhg_N-R3p8gcUnWfCO4M4A',
-      appId: '1:851190240105:android:64c303ed32782bb15da3f8',
-      messagingSenderId: '851190240105',
-      projectId: 'billboy-1ff2c',
-      storageBucket: 'billboy-1ff2c.firebasestorage.app',
+      apiKey: String.fromEnvironment('FIREBASE_API_KEY'),
+      appId: String.fromEnvironment('FIREBASE_APP_ID'),
+      messagingSenderId: String.fromEnvironment('FIREBASE_MESSAGING_SENDER_ID', defaultValue: '851190240105'),
+      projectId: String.fromEnvironment('FIREBASE_PROJECT_ID', defaultValue: 'billboy-1ff2c'),
+      storageBucket: String.fromEnvironment('FIREBASE_STORAGE_BUCKET', defaultValue: 'billboy-1ff2c.firebasestorage.app'),
     ),
   );
   // Crashlytics — catch Flutter framework errors

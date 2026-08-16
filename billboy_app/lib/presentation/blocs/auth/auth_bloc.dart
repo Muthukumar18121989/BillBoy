@@ -13,6 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthGoogleSignInEvent>(_onGoogleSignIn);
     on<AuthAppleSignInEvent>(_onAppleSignIn);
     on<AuthSignOutEvent>(_onSignOut);
+    on<AuthDeleteAccountEvent>(_onDeleteAccount);
     on<AuthSendEmailVerificationEvent>(_onSendEmailVerification);
     on<AuthForgotPasswordEvent>(_onForgotPassword);
     on<AuthVerifyOtpEvent>(_onVerifyOtp);
@@ -76,6 +77,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onSignOut(AuthSignOutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     final result = await _authRepository.signOut();
+    result.fold(
+      (failure) => emit(AuthErrorState(failure.message)),
+      (_) => emit(AuthUnauthenticatedState()),
+    );
+  }
+
+  Future<void> _onDeleteAccount(AuthDeleteAccountEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
+    final result = await _authRepository.deleteAccount();
     result.fold(
       (failure) => emit(AuthErrorState(failure.message)),
       (_) => emit(AuthUnauthenticatedState()),

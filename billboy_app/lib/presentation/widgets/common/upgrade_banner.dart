@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../blocs/subscription/subscription_bloc.dart';
 import '../../blocs/subscription/subscription_state.dart';
-import '../../../domain/entities/subscription_entity.dart';
-import '../../../core/config/app_config.dart';
 
 class UpgradeBanner extends StatelessWidget {
   const UpgradeBanner({super.key});

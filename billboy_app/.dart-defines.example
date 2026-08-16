@@ -1,0 +1,12 @@
+# Copy this to .dart-defines and fill in real values for local development.
+# NEVER commit .dart-defines to source control — add it to .gitignore.
+# Usage: flutter run --dart-define-from-file=.dart-defines
+
+FIREBASE_API_KEY=AIzaSyAEYSYdQKfD_Mhg_N-R3p8gcUnWfCO4M4A
+FIREBASE_APP_ID=1:851190240105:android:64c303ed32782bb15da3f8
+FIREBASE_MESSAGING_SENDER_ID=851190240105
+FIREBASE_PROJECT_ID=billboy-1ff2c
+FIREBASE_STORAGE_BUCKET=billboy-1ff2c.firebasestorage.app
+APP_ENV=development
+ADMOB_BANNER_ID=ca-app-pub-3940256099942544/6300978111
+ADMOB_INTERSTITIAL_ID=ca-app-pub-3940256099942544/1033173712

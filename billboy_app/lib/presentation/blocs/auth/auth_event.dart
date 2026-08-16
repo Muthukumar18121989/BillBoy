@@ -41,6 +41,9 @@ class AuthAppleSignInEvent extends AuthEvent {}
 
 class AuthSignOutEvent extends AuthEvent {}
 
+/// GDPR/privacy compliance: deletes Firebase Auth account + all user Firestore data.
+class AuthDeleteAccountEvent extends AuthEvent {}
+
 class AuthSendEmailVerificationEvent extends AuthEvent {}
 
 class AuthForgotPasswordEvent extends AuthEvent {

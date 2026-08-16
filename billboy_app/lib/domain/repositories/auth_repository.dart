@@ -20,6 +20,9 @@ abstract class AuthRepository {
 
   Future<Either<Failure, void>> signOut();
 
+  /// GDPR compliance: delete Firebase Auth account + all Firestore user data.
+  Future<Either<Failure, void>> deleteAccount();
+
   Future<Either<Failure, void>> sendEmailVerification();
   Future<Either<Failure, void>> sendPasswordResetEmail(String email);
   Future<Either<Failure, void>> verifyOtp(String phone, String otp);
