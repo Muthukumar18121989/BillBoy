@@ -1,8 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- INTERNET permission required by AdMob -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="billboy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!--
+          AdMob App ID.
+          TEST ID used here — replace with real ca-app-pub-XXXXXXXX~XXXXXXXXXX
+          from the AdMob console before releasing to production.
+          Never commit real Ad credentials to source control.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

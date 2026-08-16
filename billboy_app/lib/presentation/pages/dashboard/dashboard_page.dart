@@ -16,6 +16,7 @@ import '../../blocs/subscription/subscription_event.dart';
 import '../../widgets/bill/bill_table.dart';
 import '../../widgets/common/bb_search_bar.dart';
 import '../../widgets/common/stat_card.dart';
+import '../../widgets/common/ad_banner_widget.dart';
 import '../../widgets/common/upgrade_banner.dart';
 import '../../widgets/common/warranty_alert_card.dart';
 
@@ -70,6 +71,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     SliverToBoxAdapter(child: _buildStats()),
                     SliverToBoxAdapter(child: _buildWarrantyAlerts()),
                     SliverToBoxAdapter(child: _buildTableSection()),
+                    const SliverToBoxAdapter(child: SizedBox(height: 16)),
+                    const SliverToBoxAdapter(
+                      child: Center(child: AdBannerWidget()),
+                    ),
                     const SliverToBoxAdapter(child: SizedBox(height: 80)),
                   ],
                 ),

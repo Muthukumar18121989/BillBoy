@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import '../../../core/di/injection_container.dart';
+import '../../../core/services/purchase_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/config/app_config.dart';
 
@@ -137,35 +140,46 @@ class SubscriptionPage extends StatelessWidget {
   }
 
   Widget _buildPlanCards(BuildContext context) {
-    return Column(
-      children: [
-        _PlanCard(
-          title: 'Monthly',
-          price: '₹299',
-          period: '/month',
-          productId: AppConfig.subscriptionMonthlyId,
-          isPopular: false,
-        ),
-        const SizedBox(height: 12),
-        _PlanCard(
-          title: 'Annual',
-          price: '₹1,999',
-          period: '/year',
-          productId: AppConfig.subscriptionAnnualId,
-          isPopular: true,
-          savings: 'Save 44%',
-        ),
-      ],
+    return FutureBuilder<List<ProductDetails>>(
+      future: sl<PurchaseService>().loadProducts(),
+      builder: (context, snapshot) {
+        final products = snapshot.data ?? [];
+        final monthly = products.where((p) => p.id == AppConfig.subscriptionMonthlyId).firstOrNull;
+        final annual = products.where((p) => p.id == AppConfig.subscriptionAnnualId).firstOrNull;
+
+        return Column(
+          children: [
+            _PlanCard(
+              title: 'Monthly',
+              price: monthly?.price ?? '₹299',
+              period: '/month',
+              product: monthly,
+              isPopular: false,
+            ),
+            const SizedBox(height: 12),
+            _PlanCard(
+              title: 'Annual',
+              price: annual?.price ?? '₹1,999',
+              period: '/year',
+              product: annual,
+              isPopular: true,
+              savings: 'Save 44%',
+            ),
+          ],
+        );
+      },
     ).animate().fadeIn(delay: 300.ms);
   }
 
   Widget _buildRestoreButton(BuildContext context) {
     return TextButton(
-      onPressed: () {
-        // TODO: Implement restore purchases via in_app_purchase
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Restore purchases — coming soon')),
-        );
+      onPressed: () async {
+        await sl<PurchaseService>().restorePurchases();
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Checking for previous purchases…')),
+          );
+        }
       },
       child: const Text('Restore Purchases'),
     );
@@ -186,7 +200,7 @@ class _PlanCard extends StatelessWidget {
   final String title;
   final String price;
   final String period;
-  final String productId;
+  final ProductDetails? product;
   final bool isPopular;
   final String? savings;
 
@@ -194,7 +208,7 @@ class _PlanCard extends StatelessWidget {
     required this.title,
     required this.price,
     required this.period,
-    required this.productId,
+    required this.product,
     required this.isPopular,
     this.savings,
   });
@@ -242,12 +256,11 @@ class _PlanCard extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    // TODO: Trigger in_app_purchase for productId
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Purchasing $title plan — coming soon')),
-                    );
-                  },
+                  onPressed: product == null
+                      ? null
+                      : () async {
+                          await sl<PurchaseService>().purchase(product!);
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isPopular ? AppColors.primary : null,
                     foregroundColor: isPopular ? Colors.white : AppColors.primary,

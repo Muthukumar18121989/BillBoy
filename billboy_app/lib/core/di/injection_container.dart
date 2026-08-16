@@ -17,10 +17,12 @@ import '../../presentation/blocs/bill/bill_bloc.dart';
 import '../../presentation/blocs/dashboard/dashboard_bloc.dart';
 import '../../presentation/blocs/warranty/warranty_bloc.dart';
 import '../network/dio_client.dart';
+import '../services/admob_service.dart';
 import '../services/analytics_service.dart';
 import '../services/entitlement_service.dart';
 import '../services/notification_service.dart';
 import '../services/ocr_service.dart';
+import '../services/purchase_service.dart';
 import '../../data/datasources/remote/subscription_remote_datasource.dart';
 import '../../data/repositories/subscription_repository_impl.dart';
 import '../../domain/repositories/subscription_repository.dart';
@@ -44,8 +46,14 @@ Future<void> init() async {
   sl.registerSingleton<AnalyticsService>(AnalyticsService());
   sl.registerSingleton<NotificationService>(NotificationService());
   sl.registerSingleton<OcrService>(OcrService());
+  sl.registerSingleton<PurchaseService>(PurchaseService());
 
   await sl<NotificationService>().initialize();
+  await sl<PurchaseService>().initialize();
+
+  // AdMobService depends on EntitlementService — register after it
+  sl.registerSingleton<AdMobService>(AdMobService(sl<EntitlementService>()));
+  await sl<AdMobService>().initialize();
 
   // Data Sources
   sl.registerLazySingleton<AuthRemoteDataSource>(
