@@ -64,9 +64,22 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build release APK
+      - name: Decode keystore
         run: |
-          flutter build apk --release \
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/billboy-release.jks
+
+      - name: Write key.properties
+        run: |
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.STORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=billboy-release.jks
+          EOF
+
+      - name: Build release AAB
+        run: |
+          flutter build appbundle --release \
             --dart-define=APP_ENV=production \
             --dart-define=FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }} \
             --dart-define=FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }} \
@@ -76,9 +89,9 @@ jobs:
             --dart-define=ADMOB_BANNER_ID=${{ secrets.ADMOB_BANNER_ID }} \
             --dart-define=ADMOB_INTERSTITIAL_ID=${{ secrets.ADMOB_INTERSTITIAL_ID }}
 
-      - name: Upload APK artifact
+      - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release-apk
-          path: billboy_app/build/app/outputs/flutter-apk/app-release.apk
+          name: release-aab
+          path: billboy_app/build/app/outputs/bundle/release/app-release.aab
           retention-days: 30
